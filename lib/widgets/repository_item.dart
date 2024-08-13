@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:git_repos/model/repository_model.dart';
 
 class RepositoryItem extends StatelessWidget {
-  const RepositoryItem({super.key, required this.item});
+  const RepositoryItem({super.key, required this.item, required this.onClick});
 
   final Items item;
+  final Function onClick;
 
   @override
   Widget build(BuildContext context) {
-    return Card.outlined(
+    return TextButton(
+      onPressed: () {
+        onClick();
+      },
       child: ListTile(
-        leading: Padding(
-          padding: const EdgeInsets.all(4.0),
+        tileColor: Colors.blueAccent,
+        shape: const OutlineInputBorder(),
+        leading: CircleAvatar(
           child: SizedBox(
             width: 60,
             child: CachedNetworkImage(
@@ -22,12 +27,9 @@ class RepositoryItem extends StatelessWidget {
             ),
           ),
         ),
-        title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            item.name ?? "",
-            style: const TextStyle(fontSize: 18, color: Colors.black),
-          ),
+        title: Text(
+          item.name ?? "",
+          style: const TextStyle(fontSize: 18, color: Colors.black),
         ),
       ),
     );
