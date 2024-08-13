@@ -12,6 +12,48 @@ class RepositoryDetails extends StatefulWidget {
 }
 
 class _RepositoryDetailsState extends State<RepositoryDetails> {
+
+  Widget showDescriptionWidget(){
+    if(widget.repository.description.toString().isNotEmpty && widget.repository.description != null){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Container(
+              width: double.infinity,
+              height: 1,
+              color: Colors.white,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Description",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.repository.description ?? "",
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                  overflow: TextOverflow.ellipsis),
+              maxLines: 3,
+            ),
+          ),
+        ],
+      );
+    }
+    return const SizedBox();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,36 +120,7 @@ class _RepositoryDetailsState extends State<RepositoryDetails> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Container(
-                  width: double.infinity,
-                  height: 1,
-                  color: Colors.white,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Description",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.repository.description ?? "",
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                      overflow: TextOverflow.ellipsis),
-                  maxLines: 3,
-                ),
-              ),
+              showDescriptionWidget(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Container(
