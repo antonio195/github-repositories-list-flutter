@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:git_repos/controller/home_controller.dart';
+import 'package:git_repos/model/repository_model.dart';
+import 'package:git_repos/pages/repository_details.dart';
 import 'package:git_repos/widgets/repository_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   infiniteScrolling() {
     const double loadMoreThreshold = 200.0;
     if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - loadMoreThreshold &&
+            _scrollController.position.maxScrollExtent - loadMoreThreshold &&
         !controller.isLoading) {
       controller.getRepositories();
     }
@@ -43,6 +44,15 @@ class _HomePageState extends State<HomePage> {
     _scrollController.dispose();
   }
 
+  void goToDetailsPage(Items repository) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RepositoryDetails(repository: repository),
+      ),
+    );
+  }
+
   Widget isLoading() {
     if (controller.isLoading) {
       return Positioned(
@@ -63,6 +73,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigoAccent,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: const Text(
+          "Repositories",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      backgroundColor: Colors.indigo,
       body: Stack(
         children: [
           ListView.builder(
@@ -70,15 +94,17 @@ class _HomePageState extends State<HomePage> {
             itemCount: controller.repositories.length,
             itemBuilder: (context, index) {
               var repo = controller.repositories[index];
-              return RepositoryItem(item: repo);
+              return RepositoryItem(
+                item: repo,
+                onClick: () {
+                  goToDetailsPage(repo);
+                },
+              );
             },
           ),
           isLoading(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        controller.getRepositories();
-      }),
     );
   }
 }
