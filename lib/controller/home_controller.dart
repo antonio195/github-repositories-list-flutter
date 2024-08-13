@@ -11,7 +11,7 @@ class HomeController extends ChangeNotifier {
   bool get isLoading => _loading;
 
   List<Items> get repositories => _repositories;
-  int _page = 0;
+  int _page = 1;
   final int _perPage = 20;
 
   Future<void> getRepositories() async {
